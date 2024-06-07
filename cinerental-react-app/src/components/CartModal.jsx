@@ -8,6 +8,15 @@ import { getImageUrl } from "../utils/utils";
 export default function CartModal({ onClose }) {
   const { cartMovie, setCartMovie } = useContext(MovieContext);
 
+  function handleRemoveCart(event, itemId) {
+    event.preventDefault();
+
+    const filteredItem = cartMovie.filter((item) => {
+      return item.id !== itemId;
+    });
+    setCartMovie([...filteredItem]);
+  }
+
   return (
     <div className="fixed top-0 left-0 w-screen h-screen z-50 bg-black/60 backdrop-blur-sm">
       <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-[420px] sm:max-w-[600px] lg:max-w-[790px] p-4 max-h-[90vh] overflow-auto">
@@ -16,6 +25,11 @@ export default function CartModal({ onClose }) {
             Your Carts
           </h2>
           <div className="space-y-8 lg:space-y-12 max-h-[450px] overflow-auto mb-10 lg:mb-14">
+            {cartMovie.length === 0 ? (
+              <h1 className="text-2xl text-left">
+                No items found. Emply cart...
+              </h1>
+            ) : null}
             {cartMovie.map((movie) => (
               <div key={movie.id} className="grid grid-cols-[1fr_auto] gap-4">
                 <div className="flex items-center gap-4">
@@ -37,7 +51,10 @@ export default function CartModal({ onClose }) {
                   </div>
                 </div>
                 <div className="flex justify-between gap-4 items-center">
-                  <button className="bg-[#D42967] rounded-md p-2 md:px-4 inline-flex items-center space-x-2 text-white">
+                  <button
+                    className="bg-[#D42967] rounded-md p-2 md:px-4 inline-flex items-center space-x-2 text-white"
+                    onClick={(e) => handleRemoveCart(e, movie.id)}
+                  >
                     <img className="w-5 h-5" src={DeleteImage} alt="" />
                     <span className="max-md:hidden">Remove</span>
                   </button>
