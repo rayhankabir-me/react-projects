@@ -1,9 +1,11 @@
 /* eslint-disable react/prop-types */
 import { useContext, useState } from "react";
+import { toast } from "react-toastify";
 import { MovieContext } from "../context";
 import { getImageUrl } from "../utils/utils";
 import MovieDetailsModal from "./MovieDetailsModal";
 import Rating from "./Rating";
+
 export default function MovieCard({ movie }) {
   const [showModal, setShowModal] = useState(false);
   const [selectedMovie, setSelectedMovie] = useState(null);
@@ -18,6 +20,7 @@ export default function MovieCard({ movie }) {
     setShowModal(true);
   }
   function handleAddToCart(event, movie) {
+    event.preventDefault();
     event.stopPropagation();
     const found = cartMovie.find((item) => {
       return item.id === movie.id;
@@ -25,10 +28,13 @@ export default function MovieCard({ movie }) {
 
     if (!found) {
       setCartMovie([...cartMovie, movie]);
+      toast.success(`The movie added to the cart...`, {
+        position: "bottom-right",
+      });
     } else {
-      console.log(
-        `the movie ${movie.title} has been already added to the cart..!`
-      );
+      toast.error(`The movie added already cart!`, {
+        position: "bottom-right",
+      });
     }
   }
   return (

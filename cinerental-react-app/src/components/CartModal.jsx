@@ -1,5 +1,6 @@
 /* eslint-disable react/prop-types */
 import { useContext } from "react";
+import { toast } from "react-toastify";
 import DeleteImage from "../assets/delete.svg";
 import CheckoutImage from "../assets/icons/checkout.svg";
 import { MovieContext } from "../context";
@@ -15,6 +16,9 @@ export default function CartModal({ onClose }) {
       return item.id !== itemId;
     });
     setCartMovie([...filteredItem]);
+    toast.warn(`The movie removed from cart!`, {
+      position: "bottom-right",
+    });
   }
 
   return (

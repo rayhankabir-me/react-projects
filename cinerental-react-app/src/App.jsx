@@ -1,4 +1,6 @@
 import { useState } from "react";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import "./App.css";
 import Footer from "./components/Footer";
 import Header from "./components/Header";
@@ -18,6 +20,7 @@ function App() {
             <MovieList />
           </div>
         </main>
+        <ToastContainer />
         <Footer />
       </MovieContext.Provider>
     </>
