@@ -6,15 +6,15 @@ import { MovieContext } from "../context";
 import { getImageUrl } from "../utils/utils";
 
 export default function CartModal({ onClose }) {
-  const { cartMovie, setCartMovie } = useContext(MovieContext);
+  const { state, dispatch } = useContext(MovieContext);
 
-  function handleRemoveCart(event, itemId) {
+  function handleRemoveCart(event, movie) {
     event.preventDefault();
 
-    const filteredItem = cartMovie.filter((item) => {
-      return item.id !== itemId;
+    dispatch({
+      type: "removed_cart",
+      payload: movie,
     });
-    setCartMovie([...filteredItem]);
   }
 
   return (
@@ -25,12 +25,12 @@ export default function CartModal({ onClose }) {
             Your Carts
           </h2>
           <div className="space-y-8 lg:space-y-12 max-h-[450px] overflow-auto mb-10 lg:mb-14">
-            {cartMovie.length === 0 ? (
+            {state.cartMovie.length === 0 ? (
               <h1 className="text-2xl text-left">
                 No items found. Emply cart...
               </h1>
             ) : null}
-            {cartMovie.map((movie) => (
+            {state.cartMovie.map((movie) => (
               <div key={movie.id} className="grid grid-cols-[1fr_auto] gap-4">
                 <div className="flex items-center gap-4">
                   <img
@@ -53,7 +53,7 @@ export default function CartModal({ onClose }) {
                 <div className="flex justify-between gap-4 items-center">
                   <button
                     className="bg-[#D42967] rounded-md p-2 md:px-4 inline-flex items-center space-x-2 text-white"
-                    onClick={(e) => handleRemoveCart(e, movie.id)}
+                    onClick={(e) => handleRemoveCart(e, movie)}
                   >
                     <img className="w-5 h-5" src={DeleteImage} alt="" />
                     <span className="max-md:hidden">Remove</span>
