@@ -1,16 +1,16 @@
-import { useState } from "react";
+import { useReducer } from "react";
 import "./App.css";
 import Footer from "./components/Footer";
 import Header from "./components/Header";
 import MovieList from "./components/MovieList";
 import SideBar from "./components/SideBar";
 import { MovieContext } from "./context";
-
+import { CartReducer, initialState } from "./reducer/CartReducer";
 function App() {
-  const [cartMovie, setCartMovie] = useState([]);
+  const [state, dispatch] = useReducer(CartReducer, initialState);
   return (
     <>
-      <MovieContext.Provider value={{ cartMovie, setCartMovie }}>
+      <MovieContext.Provider value={{ state, dispatch }}>
         <Header />
         <main>
           <div className="container grid lg:grid-cols-[218px_1fr] gap-[3.5rem]">
